@@ -19,29 +19,16 @@ public final class PixelHudLayout {
 
   /** Each widget measures only its own label and value at their normal font size. */
   public static Layout layout(
-      Draw draw,
-      Metric metric,
-      Model model,
-      Labels labels,
-      Locale locale,
-      int requestedWidth,
-      boolean chart) {
+      Draw draw, Metric metric, Model model, Labels labels, Locale locale, int requestedWidth) {
     return layout(
-        draw,
-        metric,
-        metric.label(labels, model.net()),
-        metric.value(model, locale),
-        requestedWidth,
-        chart);
+        draw, metric.label(labels, model.net()), metric.value(model, locale), requestedWidth);
   }
 
-  public static Layout layout(
-      Draw draw, Metric metric, String label, String value, int requestedWidth, boolean chart) {
+  public static Layout layout(Draw draw, String label, String value, int requestedWidth) {
     float textWidth =
         64 + Math.max(draw.textWidth(label, 9, false), draw.textWidth(value, 17, true));
     int width = Math.max(Math.max(100, requestedWidth), (int) Math.ceil(textWidth));
-    boolean incomeChart = metric == Metric.TODAY && chart && textWidth + 65 <= width;
-    return new Layout(width, CARD_HEIGHT, incomeChart);
+    return new Layout(width, CARD_HEIGHT);
   }
 
   public static void paint(
@@ -93,32 +80,6 @@ public final class PixelHudLayout {
     draw.rect(42, 8, 0.7f, 24, palette.border());
     draw.text(label, 52, 6.5f, 9, palette.text(), false);
     draw.text(value, 52, 18, 17, color, true);
-    if (layout.incomeChart()) {
-      chart(draw, model.history(), layout.width(), palette);
-    }
-  }
-
-  private static void chart(Draw draw, BigDecimal[] history, int width, Palette palette) {
-    double max = 0;
-    for (BigDecimal value : history) {
-      max = Math.max(max, Math.abs(value.doubleValue()));
-    }
-    if (max == 0) {
-      return;
-    }
-    for (int i = 0; i < history.length && i < 7; i++) {
-      float height = (float) (Math.abs(history[i].doubleValue()) / max * 19);
-      int color = history[i].signum() < 0 ? palette.negative() : palette.accent();
-      draw.panel(
-          width - 65 + i * 7.5f,
-          32 - Math.max(height, 1),
-          5,
-          Math.max(height, 1),
-          0.5f,
-          color,
-          shade(color, 0.55f),
-          0);
-    }
   }
 
   private static int shade(int color, float factor) {
@@ -233,7 +194,6 @@ public final class PixelHudLayout {
       BigDecimal today,
       String rent,
       BigDecimal week,
-      BigDecimal[] history,
       boolean net,
       String apartmentTime,
       boolean apartmentWarning,
@@ -245,32 +205,14 @@ public final class PixelHudLayout {
         BigDecimal today,
         String rent,
         BigDecimal week,
-        BigDecimal[] history,
         boolean net,
         String apartmentTime,
         boolean apartmentWarning) {
-      this(
-          balance,
-          today,
-          rent,
-          week,
-          history,
-          net,
-          apartmentTime,
-          apartmentWarning,
-          false,
-          false,
-          false);
+      this(balance, today, rent, week, net, apartmentTime, apartmentWarning, false, false, false);
     }
 
-    public Model(
-        String balance,
-        BigDecimal today,
-        String rent,
-        BigDecimal week,
-        BigDecimal[] history,
-        boolean net) {
-      this(balance, today, rent, week, history, net, "—", false);
+    public Model(String balance, BigDecimal today, String rent, BigDecimal week, boolean net) {
+      this(balance, today, rent, week, net, "—", false);
     }
   }
 
@@ -311,22 +253,16 @@ public final class PixelHudLayout {
   }
 
   public record Palette(
-      int backgroundTop,
-      int backgroundBottom,
-      int border,
-      int accent,
-      int text,
-      int value,
-      int negative) {
+      int backgroundTop, int backgroundBottom, int border, int text, int value, int negative) {
     public static final Palette DEFAULT = defaults(Metric.BALANCE);
 
     public static Palette defaults(Metric metric) {
       return new Palette(
-          0xff253049, 0xff121925, 0xff4b5a77, BLUE, WHITE, metric.defaultColor(), 0xffff7d7d);
+          0xff253049, 0xff121925, 0xff4b5a77, WHITE, metric.defaultColor(), 0xffff7d7d);
     }
   }
 
-  public record Layout(int width, int height, boolean incomeChart) {}
+  public record Layout(int width, int height) {}
 
   public interface Draw {
     void icon(CardIcon icon, float x, float y, float width, float height);

@@ -143,9 +143,6 @@
         "header": {
           "colors": {
             "name": "Colors"
-          },
-          "chart": {
-            "name": "Income chart"
           }
         },
         "backgroundTopColor": {
@@ -163,13 +160,6 @@
         "negativeColor": {
           "name": "Negative net values",
           "description": "Color for negative values in net mode."
-        },
-        "showChart": {
-          "name": "Show income chart",
-          "description": "Last seven calendar days, shown only in card mode when there is enough space."
-        },
-        "graphColor": {
-          "name": "Chart color"
         },
         "cardValueColor": {
           "name": "Card value"

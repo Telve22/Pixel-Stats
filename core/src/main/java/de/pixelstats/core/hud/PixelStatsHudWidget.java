@@ -21,7 +21,6 @@ import net.labymod.api.client.gui.screen.state.RoundedData;
 import net.labymod.api.client.gui.screen.state.ScreenCanvas;
 import net.labymod.api.client.gui.screen.state.states.GuiRectangleRenderState.RectConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
-import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.color.ColorPickerWidget.ColorPickerSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
@@ -58,7 +57,6 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
   private String layoutLabel;
   private String layoutValue;
   private int layoutWidth;
-  private boolean layoutChart;
 
   public PixelStatsHudWidget(
       PixelStatsAddon addon,
@@ -163,15 +161,6 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
               BigDecimal.valueOf(1240),
               "320",
               BigDecimal.valueOf(6870),
-              new BigDecimal[] {
-                BigDecimal.valueOf(130),
-                BigDecimal.valueOf(380),
-                BigDecimal.valueOf(290),
-                BigDecimal.valueOf(820),
-                BigDecimal.valueOf(1100),
-                BigDecimal.valueOf(1630),
-                BigDecimal.valueOf(2520)
-              },
               net,
               "≈ 1d 13h",
               false);
@@ -184,7 +173,6 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
               ledger.today(day, net),
               PixelHudLayout.format(ledger.rentPerDay(), this.locale),
               ledger.week(day, net),
-              ledger.recentDays(day, net),
               net,
               PixelHudLocalization.apartmentTime(
                   lease, now, this.addon.labyAPI().internationalization()),
@@ -243,19 +231,15 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
       this.cardLayout = null;
     }
     int width = this.getConfig().widgetWidth().get();
-    boolean chart = this.getConfig().chart();
     if (this.cardLayout == null
         || width != this.layoutWidth
-        || chart != this.layoutChart
         || !Objects.equals(this.layoutLabel, this.cardLabel)
         || !Objects.equals(this.layoutValue, this.currentValue)) {
       this.cardLayout =
-          PixelHudLayout.layout(
-              this.cardDraw, this.metric, this.cardLabel, this.currentValue, width, chart);
+          PixelHudLayout.layout(this.cardDraw, this.cardLabel, this.currentValue, width);
       this.layoutLabel = this.cardLabel;
       this.layoutValue = this.currentValue;
       this.layoutWidth = width;
-      this.layoutChart = chart;
     }
     var layout = this.cardLayout;
     size.set((float) layout.width(), (float) layout.height());
@@ -342,14 +326,6 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
       return this.cardValueColor;
     }
 
-    public boolean chart() {
-      return false;
-    }
-
-    protected int graphColor() {
-      return PixelHudLayout.Palette.DEFAULT.accent();
-    }
-
     protected int negativeColor() {
       return PixelHudLayout.Palette.DEFAULT.negative();
     }
@@ -359,7 +335,6 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
           || this.cachedPalette.backgroundTop() != this.backgroundTopColor.get()
           || this.cachedPalette.backgroundBottom() != this.backgroundBottomColor.get()
           || this.cachedPalette.border() != this.borderColor.get()
-          || this.cachedPalette.accent() != this.graphColor()
           || this.cachedPalette.text() != this.textColor.get()
           || this.cachedPalette.value() != this.cardValueColor.get()
           || this.cachedPalette.negative() != this.negativeColor()) {
@@ -368,7 +343,6 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
                 this.backgroundTopColor.get(),
                 this.backgroundBottomColor.get(),
                 this.borderColor.get(),
-                this.graphColor(),
                 this.textColor.get(),
                 this.cardValueColor.get(),
                 this.negativeColor());
@@ -405,30 +379,13 @@ public final class PixelStatsHudWidget<C extends PixelStatsHudWidget.Config>
   }
 
   public static final class TodayConfig extends EarningsConfig {
-    @SettingSection("chart")
-    @SwitchSetting
-    private final ConfigProperty<Boolean> showChart = new ConfigProperty<>(true);
-
-    @ColorRowBreak @ColorPickerSetting
-    private final ConfigProperty<Integer> graphColor =
-        new ConfigProperty<>(PixelHudLayout.Palette.DEFAULT.accent());
-
     public TodayConfig() {
       super(PixelHudLayout.Metric.TODAY);
     }
 
     @Override
-    public boolean chart() {
-      return this.showChart.get();
-    }
-
-    @Override
-    protected int graphColor() {
-      return this.graphColor.get();
-    }
-
-    public ConfigProperty<Boolean> showChart() {
-      return this.showChart;
+    public int getConfigVersion() {
+      return 3;
     }
   }
 

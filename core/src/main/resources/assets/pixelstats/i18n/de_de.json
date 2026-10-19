@@ -143,9 +143,6 @@
         "header": {
           "colors": {
             "name": "Farben"
-          },
-          "chart": {
-            "name": "Einnahmen-Graph"
           }
         },
         "backgroundTopColor": {
@@ -163,13 +160,6 @@
         "negativeColor": {
           "name": "Negative Nettowerte",
           "description": "Farbe für negative Werte im Nettomodus."
-        },
-        "showChart": {
-          "name": "Einnahmen-Graph anzeigen",
-          "description": "Letzte sieben Kalendertage, nur in der Kartenansicht und bei ausreichend Platz."
-        },
-        "graphColor": {
-          "name": "Graph-Farbe"
         },
         "cardValueColor": {
           "name": "Karten-Wert"
