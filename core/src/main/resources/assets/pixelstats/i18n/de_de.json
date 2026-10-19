@@ -1,0 +1,333 @@
+{
+  "pixelstats": {
+    "hud": {
+      "balance": "Pixel Bestand",
+      "today": "Heute verdient",
+      "todayNet": "Heute netto",
+      "rent": "Miete / Tag",
+      "week": "Diese Woche",
+      "weekNet": "Woche netto",
+      "apartment": "Apartment Restzeit",
+      "apartmentExpired": "Abgelaufen"
+    },
+    "dashboard": {
+      "title": "Pixel Stats",
+      "subtitle": "Deine LabyWorld-Statistik",
+      "close": "Schließen",
+      "balance": "Bestätigter Kontostand: %s Pixel",
+      "unknown": "—",
+      "today": "Heute",
+      "week": "Diese Woche",
+      "total": "Insgesamt",
+      "profitLoss": "Gewinn / Verlust",
+      "income": "Einnahmen",
+      "expenses": "Ausgaben",
+      "net": "Netto",
+      "date": "Zeitraum",
+      "coverage": "Aufzeichnung seit %s",
+      "noHistory": "Noch keine bestätigte Historie vorhanden.",
+      "verified": "Alle Beträge in Pixel · Bestätigte Werte · Woche beginnt am Montag",
+      "pending": "Noch ungeprüft: +%s Pixel aus dem Chat. Diese Beträge sind nicht in den Dashboard-Summen enthalten.",
+      "chartDay": "Heute · 00:00 bis 24:00 Uhr",
+      "chartWeek": "Diese Woche · Montag bis Sonntag",
+      "chartTotal": "Gesamte Historie",
+      "chartTotalDays": "Gesamte Historie · Tage",
+      "chartTotalWeeks": "Gesamte Historie · Wochen",
+      "chartTotalMonths": "Gesamte Historie · Monate",
+      "chartTotalYears": "Gesamte Historie · Jahre",
+      "hourlyUnassigned": "Ohne Stundenangabe: %s Pixel Einnahmen und %s Pixel Ausgaben. Diese Beträge sind in den Tages- und Gesamtsummen enthalten.",
+      "period": {
+        "day": "Tag",
+        "week": "Woche",
+        "total": "Gesamt"
+      },
+      "earlier": "Frühere Aufzeichnungen",
+      "earlierShort": "Früher",
+      "pointTooltip": "%s\nEinnahmen: %s Pixel\nAusgaben: %s Pixel\nGewinn / Verlust: %s Pixel",
+      "chartLegend": "Blau: Einnahmen     Rot: Ausgaben",
+      "historyTitle": "Zeitraumübersicht",
+      "limits": "Erfasst werden beobachtete Kontostandsänderungen. Gleichzeitige Ein- und Ausgaben zwischen zwei Abgleichen können nur als Saldo erkannt werden. Miete wird nicht zusätzlich abgezogen."
+    },
+    "settings": {
+      "name": "Pixel Stats",
+      "dashboardKey": {
+        "name": "Dashboard öffnen",
+        "description": "Taste für das Statistik-Dashboard im Spiel. Standard: F8. Alternativ /pixelstats dashboard. In Chat und Menüs wird die Taste nicht abgefangen."
+      },
+      "enabled": {
+        "name": "Aktiviert"
+      },
+      "automaticRent": {
+        "name": "Miete automatisch erkennen",
+        "description": "Öffne das Mietmenü deines eigenen Apartments und fahre über den Mietpreis, um die Tagesmiete zu speichern. Ein mit /pixelstats miete gesetzter Betrag hat Vorrang."
+      },
+      "netEarnings": {
+        "name": "Netto statt Einnahmen anzeigen",
+        "description": "Zieht beobachtete Ausgaben von den Einnahmen ab. Sonst zählen nur positive Kontostandsänderungen während des Spielens."
+      },
+      "extraServer": {
+        "name": "Weitere LabyWorld-Adresse",
+        "description": "Optionaler zusätzlicher Hostname, ohne Port. Standard: laby.net, laby.world, labymod.net und laby.wtf."
+      },
+      "provisionalRewards": {
+        "name": "Unbestätigte Chat-Beträge vorläufig anzeigen",
+        "description": "Ohne Pixel-Scoreboard Schätzungen mit ≈ anzeigen. Erst der Scoreboard-Abgleich bestätigt Einnahmen. Ausgeschaltet werden nur bestätigte Werte gezeigt."
+      }
+    },
+    "hudWidgetCategory": {
+      "pixelstats": {
+        "name": "Pixel Stats",
+        "description": "Deine Pixel-Statistik auf LabyWorld"
+      }
+    },
+    "hudWidget": {
+      "pixel_balance": {
+        "name": "Pixel Bestand",
+        "description": "Dein bestätigter Pixel-Kontostand. Ohne Pixel-Scoreboard sind optionale Chat-Schätzungen mit ≈ markiert.",
+        "style": {
+          "name": "Darstellung",
+          "description": "Pixel-Stats-Karte oder LabyMods natives Text-Widget mit den Standardoptionen der FPS-Anzeige.",
+          "entries": {
+            "cards": "Karte (Pixel Stats)",
+            "text": "Text (LabyMod-Standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Breite",
+          "description": "Mindestbreite der Karte. In der nativen Textansicht bestimmt LabyMod die Größe automatisch."
+        },
+        "opacity": {
+          "name": "Deckkraft der Karte",
+          "description": "Wirkt auf die Kartenansicht."
+        },
+        "header": {
+          "colors": {
+            "name": "Farben"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Hintergrund oben"
+        },
+        "backgroundBottomColor": {
+          "name": "Hintergrund unten"
+        },
+        "borderColor": {
+          "name": "Rahmen und Trennlinie"
+        },
+        "textColor": {
+          "name": "Karten-Beschriftung"
+        },
+        "cardValueColor": {
+          "name": "Karten-Wert"
+        }
+      },
+      "pixel_today": {
+        "name": "Heute verdient",
+        "description": "Beobachtete Einnahmen seit dem lokalen Tagesbeginn.",
+        "style": {
+          "name": "Darstellung",
+          "description": "Pixel-Stats-Karte oder LabyMods natives Text-Widget mit den Standardoptionen der FPS-Anzeige.",
+          "entries": {
+            "cards": "Karte (Pixel Stats)",
+            "text": "Text (LabyMod-Standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Breite",
+          "description": "Mindestbreite der Karte. In der nativen Textansicht bestimmt LabyMod die Größe automatisch."
+        },
+        "opacity": {
+          "name": "Deckkraft der Karte",
+          "description": "Wirkt auf die Kartenansicht."
+        },
+        "header": {
+          "colors": {
+            "name": "Farben"
+          },
+          "chart": {
+            "name": "Einnahmen-Graph"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Hintergrund oben"
+        },
+        "backgroundBottomColor": {
+          "name": "Hintergrund unten"
+        },
+        "borderColor": {
+          "name": "Rahmen und Trennlinie"
+        },
+        "textColor": {
+          "name": "Karten-Beschriftung"
+        },
+        "negativeColor": {
+          "name": "Negative Nettowerte",
+          "description": "Farbe für negative Werte im Nettomodus."
+        },
+        "showChart": {
+          "name": "Einnahmen-Graph anzeigen",
+          "description": "Letzte sieben Kalendertage, nur in der Kartenansicht und bei ausreichend Platz."
+        },
+        "graphColor": {
+          "name": "Graph-Farbe"
+        },
+        "cardValueColor": {
+          "name": "Karten-Wert"
+        }
+      },
+      "pixel_rent": {
+        "name": "Miete / Tag",
+        "description": "Tagesmiete deines eigenen Hauses.",
+        "style": {
+          "name": "Darstellung",
+          "description": "Pixel-Stats-Karte oder LabyMods natives Text-Widget mit den Standardoptionen der FPS-Anzeige.",
+          "entries": {
+            "cards": "Karte (Pixel Stats)",
+            "text": "Text (LabyMod-Standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Breite",
+          "description": "Mindestbreite der Karte. In der nativen Textansicht bestimmt LabyMod die Größe automatisch."
+        },
+        "opacity": {
+          "name": "Deckkraft der Karte",
+          "description": "Wirkt auf die Kartenansicht."
+        },
+        "header": {
+          "colors": {
+            "name": "Farben"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Hintergrund oben"
+        },
+        "backgroundBottomColor": {
+          "name": "Hintergrund unten"
+        },
+        "borderColor": {
+          "name": "Rahmen und Trennlinie"
+        },
+        "textColor": {
+          "name": "Karten-Beschriftung"
+        },
+        "cardValueColor": {
+          "name": "Karten-Wert"
+        }
+      },
+      "apartment_time": {
+        "name": "Apartment Restzeit",
+        "description": "Eigenes Apartment-Schild rechtsklicken. Zeigt die geschätzte Restzeit ohne Minuten; unter 24 Stunden rot. Wiederholtes Anklicken setzt den Countdown nicht zurück. Eine am Schild erkannte Verlängerung addiert drei Tage zur gespeicherten Frist.",
+        "style": {
+          "name": "Darstellung",
+          "description": "Pixel-Stats-Karte oder LabyMods natives Text-Widget mit den Standardoptionen der FPS-Anzeige.",
+          "entries": {
+            "cards": "Karte (Pixel Stats)",
+            "text": "Text (LabyMod-Standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Breite",
+          "description": "Mindestbreite der Karte. In der nativen Textansicht bestimmt LabyMod die Größe automatisch."
+        },
+        "opacity": {
+          "name": "Deckkraft der Karte",
+          "description": "Wirkt auf die Kartenansicht."
+        },
+        "header": {
+          "colors": {
+            "name": "Farben"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Hintergrund oben"
+        },
+        "backgroundBottomColor": {
+          "name": "Hintergrund unten"
+        },
+        "borderColor": {
+          "name": "Rahmen und Trennlinie"
+        },
+        "textColor": {
+          "name": "Karten-Beschriftung"
+        },
+        "warningColor": {
+          "name": "Restzeit unter 24 Stunden",
+          "description": "Standardmäßig rot. Gilt auch, wenn die geschätzte Mietzeit abgelaufen ist."
+        },
+        "cardValueColor": {
+          "name": "Karten-Wert"
+        }
+      },
+      "pixel_week": {
+        "name": "Diese Woche",
+        "description": "Beobachtete Einnahmen seit Montag.",
+        "style": {
+          "name": "Darstellung",
+          "description": "Pixel-Stats-Karte oder LabyMods natives Text-Widget mit den Standardoptionen der FPS-Anzeige.",
+          "entries": {
+            "cards": "Karte (Pixel Stats)",
+            "text": "Text (LabyMod-Standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Breite",
+          "description": "Mindestbreite der Karte. In der nativen Textansicht bestimmt LabyMod die Größe automatisch."
+        },
+        "opacity": {
+          "name": "Deckkraft der Karte",
+          "description": "Wirkt auf die Kartenansicht."
+        },
+        "header": {
+          "colors": {
+            "name": "Farben"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Hintergrund oben"
+        },
+        "backgroundBottomColor": {
+          "name": "Hintergrund unten"
+        },
+        "borderColor": {
+          "name": "Rahmen und Trennlinie"
+        },
+        "textColor": {
+          "name": "Karten-Beschriftung"
+        },
+        "negativeColor": {
+          "name": "Negative Nettowerte",
+          "description": "Farbe für negative Werte im Nettomodus."
+        },
+        "cardValueColor": {
+          "name": "Karten-Wert"
+        }
+      }
+    },
+    "commands": {
+      "joinFirst": "Bitte zuerst LabyWorld betreten und Pixel Stats aktivieren.",
+      "rentUsage": "/pixelstats miete <Pixel pro 3 Tage> – Mietpreis deines eigenen Hauses.",
+      "invalidAmount": "Ungültiger Betrag. Beispiel: /pixelstats miete 960",
+      "rentSaved": "Miete gespeichert: %s Pixel/Tag. Automatische Übernahme ist für dieses Konto pausiert.",
+      "autoRent": "Eigene Haus-UI öffnen und den Mietpreis-Tooltip ansehen. Automatische Miet-Erkennung in den Addon-Einstellungen aktivieren.",
+      "scoreboardHeader": "Erkannte Scoreboard-Zeilen:",
+      "noScoreboard": "Noch keine Zeilen. Bitte LabyWorld betreten.",
+      "tooltipHeader": "Letzter Item-Tooltip:",
+      "rewardHeader": "Letzte Pixel-Belohnung:",
+      "noReward": "Noch keine erkannt.",
+      "signHeader": "Letztes eigenes Apartment-Schild:",
+      "balanceStatus": "Kontostand: %s",
+      "waitingForScoreboard": "warte auf Scoreboard",
+      "rentStatus": "Miete/Tag: %s – %s",
+      "manualSource": "Manuell",
+      "apartmentStatus": "Apartment: %s",
+      "readSign": "eigenes Schild rechtsklicken",
+      "helpWidgets": "Pixel Stats: Widget unter LabyMod → Widgets → Pixel Stats hinzufügen.",
+      "helpCommands": "/pixelstats dashboard | status | debug | miete <Pixel pro 3 Tage> | auto | resetincome <today|week|all>",
+      "dashboardOpened": "Statistik-Dashboard wird geöffnet.",
+      "helpEarnings": "Einnahmen werden per Scoreboard bestätigt. ≈ kennzeichnet vorläufige Chat-Beträge. Vorläufige Anzeige und Netto-Modus sind in den Addon-Einstellungen verfügbar.",
+      "incomeResetUsage": "/pixelstats resetincome <today|week|all> – löscht Einnahmen und Nettowerte des gewählten Zeitraums.",
+      "incomeResetSuccess": "Einnahmen und Nettowerte für den gewählten Zeitraum zurückgesetzt. Kontostand, Miete und Apartment bleiben erhalten."
+    }
+  }
+}

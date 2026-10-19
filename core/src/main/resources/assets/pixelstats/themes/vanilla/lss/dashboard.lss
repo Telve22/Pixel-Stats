@@ -1,0 +1,289 @@
+.dashboard {
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  alignment-x: center;
+  alignment-y: center;
+  width: 94%;
+  max-width: 820;
+  height: 92%;
+  max-height: 640;
+  padding: 14;
+  background-color: #111b29;
+  border: 1 #344b64;
+  border-radius: 7;
+}
+.dashboard-header {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 42;
+}
+
+.dashboard-title {
+  left: 0;
+  top: 0;
+  width: calc(100% - 85);
+  height: 20;
+  font-size: large;
+  text-color: #eef5ff;
+}
+
+.dashboard-subtitle {
+  left: 0;
+  top: 24;
+  width: calc(100% - 85);
+  font-size: small;
+  text-color: #9badc1;
+}
+
+.dashboard-close {
+  right: 0;
+  top: 0;
+  width: 74;
+  height: 20;
+}
+
+.dashboard-scroll {
+  left: 0;
+  top: 46;
+  width: 100%;
+  height: calc(100% - 46);
+}
+
+// ScrollWidget positions its content; VerticalListWidget positions each direct entry.
+// Explicit anchors belong to children of ordinary Divs, not to those flow entries.
+.dashboard-content {
+  width: 100%;
+  height: fit-content;
+  space-between-entries: 10;
+}
+
+.dashboard-status {
+  width: 100%;
+  height: 35;
+}
+
+.dashboard-balance {
+  left: 0;
+  top: 0;
+  width: 100%;
+  text-color: #5fe3e7;
+}
+
+.dashboard-coverage {
+  left: 0;
+  top: 18;
+  width: 100%;
+  font-size: small;
+  text-color: #9badc1;
+}
+
+.dashboard-periods {
+  width: 100%;
+  height: 128;
+}
+
+.period-card {
+  box-sizing: border-box;
+  top: 0;
+  width: 32%;
+  height: 128;
+  padding: 10;
+  background-color: #1a2a3d;
+  border: 1 #324b66;
+  border-radius: 5;
+}
+
+.period-0 {
+  left: 0;
+}
+
+.period-1 {
+  left: 34%;
+}
+
+.period-2 {
+  left: 68%;
+}
+
+.period-title {
+  left: 0;
+  top: 0;
+  width: 100%;
+  text-color: #e7f0fc;
+}
+
+.period-caption {
+  left: 0;
+  top: 17;
+  width: 100%;
+  font-size: small;
+  text-color: #9badc1;
+}
+
+.period-net {
+  left: 0;
+  top: 31;
+  width: 100%;
+  height: 20;
+  font-size: large;
+}
+
+.period-income {
+  top: 57;
+}
+
+.period-expenses {
+  top: 71;
+}
+
+.period-label {
+  left: 0;
+  width: 49%;
+  font-size: small;
+  text-color: #a8bad0;
+}
+
+.period-amount {
+  left: 50%;
+  width: 50%;
+  font-size: small;
+}
+
+.dashboard-chart-controls {
+  width: 100%;
+  height: fit-content;
+  min-height: 24;
+}
+
+.dashboard-notice {
+  left: 0;
+  top: 0;
+  width: calc(100% - 122);
+  height: fit-content;
+  font-size: small;
+  max-lines: 4;
+  overflow-strategy: wrap;
+}
+
+.dashboard-period-selector {
+  right: 0;
+  top: 0;
+  width: 112;
+  height: 20;
+}
+
+.dashboard-chart-panel {
+  box-sizing: border-box;
+  width: 100%;
+  height: 216;
+  padding: 10;
+  background-color: #152233;
+  border: 1 #2c435c;
+  border-radius: 5;
+}
+
+.section-title {
+  left: 0;
+  top: 0;
+  width: 100%;
+  text-color: #e7f0fc;
+}
+
+.chart-legend {
+  left: 0;
+  top: 17;
+  width: 100%;
+  font-size: small;
+  text-color: #a8bad0;
+}
+
+.dashboard-chart {
+  left: 0;
+  top: 34;
+  width: 100%;
+  height: 160;
+}
+
+.dashboard-history {
+  box-sizing: border-box;
+  width: 100%;
+  height: fit-content;
+  min-height: 76;
+  padding: 10;
+  background-color: #152233;
+  border: 1 #2c435c;
+  border-radius: 5;
+}
+
+.history-header {
+  left: 0;
+  top: 22;
+  width: 100%;
+  height: 16;
+}
+
+.history-rows {
+  left: 0;
+  top: 40;
+  width: 100%;
+  height: fit-content;
+  space-between-entries: 2;
+}
+
+.history-row {
+  width: 100%;
+  height: 15;
+}
+
+.table-label {
+  top: 0;
+  height: 12;
+  font-size: small;
+  text-color: #9badc1;
+}
+
+.table-value {
+  top: 0;
+  height: 12;
+  font-size: small;
+  text-color: #e7f0fc;
+}
+
+.column-0 {
+  left: 0;
+  width: 28%;
+}
+
+.column-1 {
+  left: 28%;
+  width: 24%;
+}
+
+.column-2 {
+  left: 52%;
+  width: 24%;
+}
+
+.column-3 {
+  left: 76%;
+  width: 24%;
+}
+
+.dashboard-limits {
+  width: 100%;
+  height: fit-content;
+  font-size: small;
+  text-color: #8e9fb4;
+  max-lines: 5;
+  overflow-strategy: wrap;
+}
+
+.dashboard Component {
+  shadow: false;
+  scale-to-fit: true;
+  clipping-text-tooltip: false;
+  render-hover: false;
+  allow-colors: true;
+}

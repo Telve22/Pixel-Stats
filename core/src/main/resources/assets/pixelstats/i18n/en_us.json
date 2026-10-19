@@ -1,0 +1,333 @@
+{
+  "pixelstats": {
+    "hud": {
+      "balance": "Pixel balance",
+      "today": "Earned today",
+      "todayNet": "Net today",
+      "rent": "Rent / day",
+      "week": "This week",
+      "weekNet": "Net this week",
+      "apartment": "Apartment time left",
+      "apartmentExpired": "Expired"
+    },
+    "dashboard": {
+      "title": "Pixel Stats",
+      "subtitle": "Your LabyWorld statistics",
+      "close": "Close",
+      "balance": "Confirmed balance: %s Pixel",
+      "unknown": "—",
+      "today": "Today",
+      "week": "This week",
+      "total": "All time",
+      "profitLoss": "Profit / loss",
+      "income": "Income",
+      "expenses": "Expenses",
+      "net": "Net",
+      "date": "Period",
+      "coverage": "Recorded since %s",
+      "noHistory": "No confirmed history yet.",
+      "verified": "All amounts in Pixel · Confirmed values · Weeks start on Monday",
+      "pending": "Awaiting verification: +%s Pixel from chat. These credits are not included in dashboard totals.",
+      "chartDay": "Today · 00:00 to 24:00",
+      "chartWeek": "This week · Monday to Sunday",
+      "chartTotal": "Entire history",
+      "chartTotalDays": "Entire history · Days",
+      "chartTotalWeeks": "Entire history · Weeks",
+      "chartTotalMonths": "Entire history · Months",
+      "chartTotalYears": "Entire history · Years",
+      "hourlyUnassigned": "Without hourly records: %s Pixel income and %s Pixel expenses. These amounts are included in daily and all-time totals.",
+      "period": {
+        "day": "Day",
+        "week": "Week",
+        "total": "All time"
+      },
+      "earlier": "Earlier records",
+      "earlierShort": "Earlier",
+      "pointTooltip": "%s\nIncome: %s Pixel\nExpenses: %s Pixel\nProfit / loss: %s Pixel",
+      "chartLegend": "Blue: income     Red: expenses",
+      "historyTitle": "Period overview",
+      "limits": "Tracks observed balance changes. Income and spending occurring between two checks may only be detected as a net change. Rent is not subtracted again."
+    },
+    "settings": {
+      "name": "Pixel Stats",
+      "dashboardKey": {
+        "name": "Open dashboard",
+        "description": "Key for the statistics dashboard during gameplay. Default: F8. Alternatively use /pixelstats dashboard. Does not intercept typing in chat or menus."
+      },
+      "enabled": {
+        "name": "Enabled"
+      },
+      "automaticRent": {
+        "name": "Detect rent automatically",
+        "description": "Open your own apartment's rental menu and hover over the rent price to save the daily rent. A price set with /pixelstats rent takes priority."
+      },
+      "netEarnings": {
+        "name": "Show net change",
+        "description": "Subtract observed spending from income. Otherwise only positive balance changes count."
+      },
+      "extraServer": {
+        "name": "Additional LabyWorld address",
+        "description": "Optional hostname without a port."
+      },
+      "provisionalRewards": {
+        "name": "Show provisional chat credits",
+        "description": "Show estimates marked ≈ while the Pixel scoreboard is missing. Only the scoreboard confirms income. Disable to display confirmed values only."
+      }
+    },
+    "hudWidgetCategory": {
+      "pixelstats": {
+        "name": "Pixel Stats",
+        "description": "Your Pixel statistics on LabyWorld"
+      }
+    },
+    "hudWidget": {
+      "pixel_balance": {
+        "name": "Pixel balance",
+        "description": "Your confirmed Pixel balance. Optional chat estimates are marked ≈ while the Pixel scoreboard is missing.",
+        "style": {
+          "name": "Appearance",
+          "description": "Pixel Stats card or LabyMod's native text widget with the standard FPS widget options.",
+          "entries": {
+            "cards": "Card (Pixel Stats)",
+            "text": "Text (LabyMod standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Width",
+          "description": "Minimum card width. LabyMod measures the native text view automatically."
+        },
+        "opacity": {
+          "name": "Card opacity",
+          "description": "Applies to card mode."
+        },
+        "header": {
+          "colors": {
+            "name": "Colors"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Top background"
+        },
+        "backgroundBottomColor": {
+          "name": "Bottom background"
+        },
+        "borderColor": {
+          "name": "Border and separator"
+        },
+        "textColor": {
+          "name": "Card label"
+        },
+        "cardValueColor": {
+          "name": "Card value"
+        }
+      },
+      "pixel_today": {
+        "name": "Earned today",
+        "description": "Observed earnings since the start of the local day.",
+        "style": {
+          "name": "Appearance",
+          "description": "Pixel Stats card or LabyMod's native text widget with the standard FPS widget options.",
+          "entries": {
+            "cards": "Card (Pixel Stats)",
+            "text": "Text (LabyMod standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Width",
+          "description": "Minimum card width. LabyMod measures the native text view automatically."
+        },
+        "opacity": {
+          "name": "Card opacity",
+          "description": "Applies to card mode."
+        },
+        "header": {
+          "colors": {
+            "name": "Colors"
+          },
+          "chart": {
+            "name": "Income chart"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Top background"
+        },
+        "backgroundBottomColor": {
+          "name": "Bottom background"
+        },
+        "borderColor": {
+          "name": "Border and separator"
+        },
+        "textColor": {
+          "name": "Card label"
+        },
+        "negativeColor": {
+          "name": "Negative net values",
+          "description": "Color for negative values in net mode."
+        },
+        "showChart": {
+          "name": "Show income chart",
+          "description": "Last seven calendar days, shown only in card mode when there is enough space."
+        },
+        "graphColor": {
+          "name": "Chart color"
+        },
+        "cardValueColor": {
+          "name": "Card value"
+        }
+      },
+      "pixel_rent": {
+        "name": "Rent / day",
+        "description": "Daily rent of your own house.",
+        "style": {
+          "name": "Appearance",
+          "description": "Pixel Stats card or LabyMod's native text widget with the standard FPS widget options.",
+          "entries": {
+            "cards": "Card (Pixel Stats)",
+            "text": "Text (LabyMod standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Width",
+          "description": "Minimum card width. LabyMod measures the native text view automatically."
+        },
+        "opacity": {
+          "name": "Card opacity",
+          "description": "Applies to card mode."
+        },
+        "header": {
+          "colors": {
+            "name": "Colors"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Top background"
+        },
+        "backgroundBottomColor": {
+          "name": "Bottom background"
+        },
+        "borderColor": {
+          "name": "Border and separator"
+        },
+        "textColor": {
+          "name": "Card label"
+        },
+        "cardValueColor": {
+          "name": "Card value"
+        }
+      },
+      "apartment_time": {
+        "name": "Apartment time left",
+        "description": "Right-click your own apartment sign. Shows estimated time without minutes; red below 24 hours. Repeated clicks do not reset the countdown. A renewal detected on the sign adds three days to the saved deadline.",
+        "style": {
+          "name": "Appearance",
+          "description": "Pixel Stats card or LabyMod's native text widget with the standard FPS widget options.",
+          "entries": {
+            "cards": "Card (Pixel Stats)",
+            "text": "Text (LabyMod standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Width",
+          "description": "Minimum card width. LabyMod measures the native text view automatically."
+        },
+        "opacity": {
+          "name": "Card opacity",
+          "description": "Applies to card mode."
+        },
+        "header": {
+          "colors": {
+            "name": "Colors"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Top background"
+        },
+        "backgroundBottomColor": {
+          "name": "Bottom background"
+        },
+        "borderColor": {
+          "name": "Border and separator"
+        },
+        "textColor": {
+          "name": "Card label"
+        },
+        "warningColor": {
+          "name": "Time left below 24 hours",
+          "description": "Red by default. Also applies when the estimated lease has expired."
+        },
+        "cardValueColor": {
+          "name": "Card value"
+        }
+      },
+      "pixel_week": {
+        "name": "This week",
+        "description": "Observed earnings since Monday.",
+        "style": {
+          "name": "Appearance",
+          "description": "Pixel Stats card or LabyMod's native text widget with the standard FPS widget options.",
+          "entries": {
+            "cards": "Card (Pixel Stats)",
+            "text": "Text (LabyMod standard)"
+          }
+        },
+        "widgetWidth": {
+          "name": "Width",
+          "description": "Minimum card width. LabyMod measures the native text view automatically."
+        },
+        "opacity": {
+          "name": "Card opacity",
+          "description": "Applies to card mode."
+        },
+        "header": {
+          "colors": {
+            "name": "Colors"
+          }
+        },
+        "backgroundTopColor": {
+          "name": "Top background"
+        },
+        "backgroundBottomColor": {
+          "name": "Bottom background"
+        },
+        "borderColor": {
+          "name": "Border and separator"
+        },
+        "textColor": {
+          "name": "Card label"
+        },
+        "negativeColor": {
+          "name": "Negative net values",
+          "description": "Color for negative values in net mode."
+        },
+        "cardValueColor": {
+          "name": "Card value"
+        }
+      }
+    },
+    "commands": {
+      "joinFirst": "Please join LabyWorld and enable Pixel Stats first.",
+      "rentUsage": "/pixelstats rent <Pixel per 3 days> – rent for your own house.",
+      "invalidAmount": "Invalid amount. Example: /pixelstats rent 960",
+      "rentSaved": "Rent saved: %s Pixel/day. Automatic rent detection is paused for this account.",
+      "autoRent": "Open your own house menu and hover over the rent tooltip. Enable automatic rent detection in the addon settings.",
+      "scoreboardHeader": "Detected scoreboard lines:",
+      "noScoreboard": "No lines yet. Please join LabyWorld.",
+      "tooltipHeader": "Last item tooltip:",
+      "rewardHeader": "Last Pixel reward:",
+      "noReward": "None detected yet.",
+      "signHeader": "Last owned apartment sign:",
+      "balanceStatus": "Balance: %s",
+      "waitingForScoreboard": "waiting for scoreboard",
+      "rentStatus": "Rent/day: %s – %s",
+      "manualSource": "Manual",
+      "apartmentStatus": "Apartment: %s",
+      "readSign": "right-click your own sign",
+      "helpWidgets": "Pixel Stats: Add a widget under LabyMod → Widgets → Pixel Stats.",
+      "helpCommands": "/pixelstats dashboard | status | debug | rent <Pixel per 3 days> | auto | resetincome <today|week|all>",
+      "dashboardOpened": "Opening the statistics dashboard.",
+      "helpEarnings": "The scoreboard confirms income. ≈ marks provisional chat credits. Provisional display and net mode are available in the addon settings.",
+      "incomeResetUsage": "/pixelstats resetincome <today|week|all> – clears income and net values for the selected period.",
+      "incomeResetSuccess": "Income and net values for the selected period reset. Balance, rent and apartment data are kept."
+    }
+  }
+}
