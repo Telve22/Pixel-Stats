@@ -10,12 +10,12 @@ import de.pixelstats.core.data.PixelBalanceTracker;
 import de.pixelstats.core.data.PixelRewardMessages;
 import de.pixelstats.core.data.PixelTextParser;
 import de.pixelstats.core.data.StatsLedger;
+import de.pixelstats.core.data.StatsPersistence;
 import de.pixelstats.core.data.StatsStore;
 import de.pixelstats.core.hud.PixelHudLayout.Metric;
 import de.pixelstats.core.hud.PixelHudLocalization;
 import de.pixelstats.core.hud.PixelStatsHudWidget;
 import de.pixelstats.core.hud.PixelWidgetConfigMigration;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -64,17 +64,17 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
       Comparator.comparingInt(ScoreboardScore::getValue)
           .reversed()
           .thenComparing(ScoreboardScore::getName, String.CASE_INSENSITIVE_ORDER);
-  private StatsStore store;
+  private StatsPersistence persistence;
   private StatsLedger ledger = new StatsLedger();
   private PixelBalanceTracker balanceTracker = new PixelBalanceTracker(this.ledger);
   private final ArrayBlockingQueue<Reward> rewards =
       new ArrayBlockingQueue<>(StatsLedger.MAX_PENDING_REWARDS);
   private final ApartmentSignTracker apartmentSigns = new ApartmentSignTracker();
   private UUID account;
-  private boolean writable;
+  private UUID loadingAccount;
   private boolean active;
+  private volatile boolean shuttingDown;
   private long lastPoll;
-  private long lastSave;
   private BigDecimal candidate;
   private long candidateSince;
   private PixelTextParser.RentQuote pendingRent;
@@ -91,12 +91,21 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
 
   @Override
   protected void enable() {
-    this.store =
-        new StatsStore(
-            this.labyAPI()
-                .labyModLoader()
-                .getGameDirectory()
-                .resolve("labymod-neo/addons/pixelstats/data"));
+    this.persistence =
+        new StatsPersistence(
+            new StatsStore(
+                this.labyAPI()
+                    .labyModLoader()
+                    .getGameDirectory()
+                    .resolve("labymod-neo/addons/pixelstats/data")),
+            this.labyAPI().minecraft()::executeOnRenderThread,
+            failure -> {
+              String message =
+                  failure.operation() == StatsPersistence.Operation.LOAD
+                      ? "Could not load Pixel Stats history; preserving the existing file."
+                      : "Could not save Pixel Stats history; keeping unsaved changes in memory.";
+              this.logger().error(message, failure.cause());
+            });
     this.registerSettingCategory();
     this.registerListener(new PixelWidgetConfigMigration());
     HudWidgetCategory category = new HudWidgetCategory(this, "pixelstats");
@@ -169,7 +178,8 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
   }
 
   public boolean tracking() {
-    return this.configuration().enabled().get()
+    return !this.shuttingDown
+        && this.configuration().enabled().get()
         && isLabyWorld()
         && this.account != null
         && this.account.equals(this.labyAPI().getUniqueId());
@@ -228,7 +238,7 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
 
   @Subscribe
   public void onTick(GameTickEvent event) {
-    if (event.phase() != Phase.POST) {
+    if (this.shuttingDown || event.phase() != Phase.POST) {
       return;
     }
     long now = System.currentTimeMillis();
@@ -237,7 +247,7 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
     }
     this.lastPoll = now;
     if (!this.configuration().enabled().get() || !isLabyWorld()) {
-      if (this.active) {
+      if (this.active || this.loadingAccount != null) {
         suspend();
       }
       flush(false);
@@ -246,22 +256,14 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
     UUID currentAccount = this.labyAPI().getUniqueId();
     if (currentAccount == null) {
       suspend();
+      flush(false);
       return;
     }
     if (!currentAccount.equals(this.account)) {
-      flush(true);
-      this.account = currentAccount;
-      this.writable = true;
-      try {
-        this.ledger = this.store.load(currentAccount);
-      } catch (IOException exception) {
-        this.ledger = new StatsLedger();
-        this.writable = false;
-        this.logger()
-            .error("Could not load Pixel Stats history; preserving the existing file.", exception);
+      if (!currentAccount.equals(this.loadingAccount)) {
+        loadAccount(currentAccount);
       }
-      this.balanceTracker = new PixelBalanceTracker(this.ledger);
-      resetBaseline();
+      return;
     }
     this.active = true;
     this.apartmentSigns
@@ -310,9 +312,46 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
     flush(false);
   }
 
+  private void loadAccount(UUID requestedAccount) {
+    flush(true);
+    this.balanceTracker.endSession();
+    this.active = false;
+    this.account = null;
+    this.loadingAccount = requestedAccount;
+    this.ledger = new StatsLedger();
+    this.balanceTracker = new PixelBalanceTracker(this.ledger);
+    this.apartmentSigns.clear();
+    this.scoreboardLines = List.of();
+    this.parsedBalance = Optional.empty();
+    this.tooltipLines = List.of();
+    this.lastRewardMessage = "";
+    this.rewards.removeIf(reward -> !requestedAccount.equals(reward.account()));
+    resetBaseline();
+    this.persistence.select(
+        requestedAccount,
+        loaded -> {
+          if (!requestedAccount.equals(this.loadingAccount)) {
+            return;
+          }
+          this.loadingAccount = null;
+          if (this.shuttingDown
+              || !this.configuration().enabled().get()
+              || !isLabyWorld()
+              || !requestedAccount.equals(this.labyAPI().getUniqueId())) {
+            this.persistence.deactivate();
+            return;
+          }
+          this.ledger = loaded;
+          this.balanceTracker = new PixelBalanceTracker(loaded);
+          resetBaseline();
+          this.account = requestedAccount;
+        });
+  }
+
   @Subscribe
   public void onInteract(ClientPlayerInteractEvent event) {
-    if (event.type() != ClientPlayerInteractEvent.InteractionType.INTERACT
+    if (this.shuttingDown
+        || event.type() != ClientPlayerInteractEvent.InteractionType.INTERACT
         || !this.configuration().enabled().get()
         || !isLabyWorld()) {
       return;
@@ -342,7 +381,7 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
 
   @Subscribe
   public void onChat(ChatReceiveEvent event) {
-    if (!this.configuration().enabled().get() || !isLabyWorld()) {
+    if (this.shuttingDown || !this.configuration().enabled().get() || !isLabyWorld()) {
       return;
     }
     var message = event.chatMessage();
@@ -448,7 +487,9 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
   @Subscribe
   public void onShutdown(ShutdownEvent event) {
     if (event.stage() == ShutdownEvent.Stage.PRE) {
-      flush(true);
+      this.shuttingDown = true;
+      suspend();
+      this.persistence.shutdown();
     }
   }
 
@@ -459,6 +500,10 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
   }
 
   private void suspend() {
+    this.loadingAccount = null;
+    if (this.persistence != null) {
+      this.persistence.deactivate();
+    }
     this.apartmentSigns.clear();
     this.active = false;
     this.scoreboardLines = List.of();
@@ -497,20 +542,8 @@ public class PixelStatsAddon extends LabyAddon<PixelStatsConfiguration> {
   }
 
   public void flush(boolean force) {
-    long now = System.currentTimeMillis();
-    if (this.account == null
-        || !this.writable
-        || !this.ledger.dirty()
-        || (!force && now - this.lastSave < 5_000)) {
-      return;
-    }
-    this.lastSave = now;
-    try {
-      this.store.save(this.account, this.ledger);
-    } catch (IOException exception) {
-      // Rate-limit retries to one minute while preserving the unsaved in-memory history.
-      this.lastSave = now + 55_000;
-      this.logger().error("Could not save Pixel Stats history.", exception);
+    if (this.persistence != null) {
+      this.persistence.flush(force);
     }
   }
 

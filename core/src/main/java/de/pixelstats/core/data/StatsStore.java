@@ -136,48 +136,48 @@ public final class StatsStore {
     }
   }
 
-  public void save(UUID account, StatsLedger ledger) throws IOException {
+  public void save(UUID account, StatsSnapshot snapshot) throws IOException {
     Files.createDirectories(this.directory);
     Properties data = new Properties();
     data.setProperty("version", "5");
-    data.setProperty("lifetime.income", ledger.lifetime().income().toPlainString());
-    data.setProperty("lifetime.net", ledger.lifetime().net().toPlainString());
-    if (ledger.recordingSince() != null) {
-      data.setProperty("recordingSince", ledger.recordingSince().toString());
+    data.setProperty("lifetime.income", snapshot.lifetime().income().toPlainString());
+    data.setProperty("lifetime.net", snapshot.lifetime().net().toPlainString());
+    if (snapshot.recordingSince() != null) {
+      data.setProperty("recordingSince", snapshot.recordingSince().toString());
     }
-    if (ledger.confirmedBalance() != null) {
-      data.setProperty("balance", ledger.confirmedBalance().toPlainString());
+    if (snapshot.balance() != null) {
+      data.setProperty("balance", snapshot.balance().toPlainString());
     }
-    if (ledger.rentPrice() != null) {
-      data.setProperty("rent", ledger.rentPrice().toPlainString());
+    if (snapshot.rentPrice() != null) {
+      data.setProperty("rent", snapshot.rentPrice().toPlainString());
     }
-    data.setProperty("rentDays", Integer.toString(ledger.rentDays()));
-    data.setProperty("rentSource", ledger.rentSource());
-    data.setProperty("manualRent", Boolean.toString(ledger.manualRent()));
-    if (ledger.apartmentLease() != null) {
-      ApartmentLease lease = ledger.apartmentLease();
+    data.setProperty("rentDays", Integer.toString(snapshot.rentDays()));
+    data.setProperty("rentSource", snapshot.rentSource());
+    data.setProperty("manualRent", Boolean.toString(snapshot.manualRent()));
+    if (snapshot.apartmentLease() != null) {
+      ApartmentLease lease = snapshot.apartmentLease();
       data.setProperty("apartmentName", lease.apartment());
       data.setProperty("apartmentTenant", lease.tenant());
       data.setProperty("apartmentObservedAt", Long.toString(lease.observedAt()));
       data.setProperty("apartmentDurationMillis", Long.toString(lease.durationMillis()));
       data.setProperty("apartmentPrecisionMillis", Long.toString(lease.precisionMillis()));
     }
-    for (var entry : ledger.days().entrySet()) {
+    for (var entry : snapshot.days().entrySet()) {
       data.setProperty("income." + entry.getKey(), entry.getValue().income().toPlainString());
       data.setProperty("net." + entry.getKey(), entry.getValue().net().toPlainString());
     }
-    if (ledger.hourlySince() != null) {
-      data.setProperty("hourlySince", ledger.hourlySince().toString());
+    if (snapshot.hourlySince() != null) {
+      data.setProperty("hourlySince", snapshot.hourlySince().toString());
     }
-    for (var entry : ledger.hours().entrySet()) {
+    for (var entry : snapshot.hours().entrySet()) {
       data.setProperty("hour.income." + entry.getKey(), entry.getValue().income().toPlainString());
       data.setProperty("hour.net." + entry.getKey(), entry.getValue().net().toPlainString());
     }
-    for (var entry : ledger.months().entrySet()) {
+    for (var entry : snapshot.months().entrySet()) {
       data.setProperty("month.income." + entry.getKey(), entry.getValue().income().toPlainString());
       data.setProperty("month.net." + entry.getKey(), entry.getValue().net().toPlainString());
     }
-    List<StatsLedger.PendingReward> pending = ledger.pendingRewards();
+    List<StatsLedger.PendingReward> pending = snapshot.pendingRewards();
     data.setProperty("pending.count", Integer.toString(pending.size()));
     for (int index = 0; index < pending.size(); index++) {
       String prefix = "pending." + index + ".";
@@ -199,7 +199,6 @@ public final class StatsStore {
       } catch (AtomicMoveNotSupportedException exception) {
         Files.move(temporary, file(account), StandardCopyOption.REPLACE_EXISTING);
       }
-      ledger.markSaved();
     } finally {
       Files.deleteIfExists(temporary);
     }

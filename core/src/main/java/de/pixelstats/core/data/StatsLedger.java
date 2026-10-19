@@ -37,6 +37,7 @@ public final class StatsLedger {
   private ApartmentLease apartmentLease;
   private boolean dirty;
   private long revision;
+  private long dataRevision;
 
   public void observe(BigDecimal value, LocalDate day, long time) {
     if (value.signum() < 0) {
@@ -360,10 +361,33 @@ public final class StatsLedger {
   private void changed() {
     this.dirty = true;
     this.revision++;
+    this.dataRevision++;
   }
 
-  public void markSaved() {
-    this.dirty = false;
+  /** A completed write must not clear changes made after its snapshot was captured. */
+  public void markSaved(long savedRevision) {
+    if (this.dataRevision == savedRevision) {
+      this.dirty = false;
+    }
+  }
+
+  /** Captured on the client thread; the storage worker never receives this mutable ledger. */
+  public StatsSnapshot snapshot() {
+    return new StatsSnapshot(
+        this.dataRevision,
+        this.balance,
+        this.rentPrice,
+        this.rentDays,
+        this.rentSource,
+        this.manualRent,
+        this.apartmentLease,
+        this.days,
+        this.hours,
+        this.months,
+        this.lifetime,
+        this.recordingSince,
+        this.hourlySince,
+        this.pendingRewards);
   }
 
   public Map<LocalDate, DayTotals> days() {
