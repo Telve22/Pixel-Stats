@@ -1,8 +1,7 @@
 # Pixel Stats
 
 Pixel Stats **1.0.0** is a LabyMod 4 addon for tracking the Pixel currency on
-LabyWorld. It provides independent HUD widgets and a statistics dashboard in
-German and English.
+LabyWorld. It provides independent HUD widgets and a statistics dashboard
 
 ## Features
 
@@ -19,27 +18,6 @@ German and English.
   apartment deadline from the player's own sign. The timer continues offline,
   omits minutes and warns below 24 hours.
 - Separate local histories for each Minecraft account.
-
-## Getting started
-
-Use LabyMod 4 and install `build/libs/pixel-stats-release.jar` in your instance's
-`labymod-neo/addons` directory while the game is closed. On a standard Windows
-installation this is `%APPDATA%\.minecraft\labymod-neo\addons`. Restart the client
-after replacing the JAR. The intermediate module JARs are not installable addons.
-
-Join LabyWorld, then add the desired widgets under **LabyMod → Widgets → Pixel Stats**.
-Each widget has its own appearance and color settings. The addon can be disabled
-in its settings, including through LabyMod's server-controlled disabling mechanism.
-
-Press **F8** to open the dashboard. The key can be changed in the addon settings;
-`/pixelstats dashboard` opens the same screen. The shortcut only operates during
-normal gameplay, leaving chat and menu input to Minecraft.
-
-For automatic rent detection, open your own apartment's rental menu and hover
-over the rent-price item. For the remaining-time widget, right-click your own
-apartment sign. Other tenants' signs and rental menus are ignored. A detected
-renewal adds three days to the saved deadline; repeated rounded sign readings do
-not restart the countdown. The displayed deadline remains an estimate.
 
 ## How accounting works
 
@@ -99,30 +77,3 @@ Writes use a temporary file in the same directory and atomic replacement where
 supported. Malformed or unsupported newer files are preserved; automatic writes
 for that account are suspended after a failed load. Internal file-format and
 configuration-schema versions are independent of the public addon version.
-
-## Building
-
-Use the included Gradle wrapper with JDK 25, as in the official LabyMod CI
-workflow. Production Java classes target Java 21.
-
-```sh
-./gradlew build createReleaseJar
-```
-
-On Windows, use `gradlew.bat`. The installable result is
-`build/libs/pixel-stats-release.jar`. The `VERSION` environment variable may set
-the release version; the default is `1.0.0`.
-
-The GitHub Actions workflow builds the addon and uploads the release JAR as the
-**Artifacts** workflow artifact. Only production sources and the files required
-to build and review the addon are included in this repository.
-
-Runtime code is in `core/src/main`. The `api` module and generated `game-runner`
-retain the official LabyMod template structure. Generated resource indices,
-build output and local client files are ignored by Git.
-
-Pixel Stats uses the public LabyMod 4 Addon API. Before submission, verify the
-release JAR in a production client as described in the
-[official publishing instructions](https://dev.labymod.net/pages/addon/publishing/publish/).
-Pixel Stats is an independent addon and has not been approved for the LabyMod
-addon store.
