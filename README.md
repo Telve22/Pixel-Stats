@@ -1,6 +1,6 @@
 # Pixel Stats
 
-Pixel Stats **1.0.0** is a LabyMod 4 addon for tracking the Pixel currency on
+Pixel Stats **1.0.2** is a LabyMod 4 addon for tracking the Pixel currency on
 LabyWorld. It provides independent HUD widgets and a statistics dashboard
 
 ## Features
